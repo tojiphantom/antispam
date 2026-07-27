@@ -17,6 +17,7 @@ INTERVALLE_SECONDES = 5
 LIMITE_MENTIONS = 5
 DOMAINES_AUTORISES = ["discord.com", "discord.gg", "tenor.com", "youtube.com", "youtu.be"]
 IDS_ROLES_EXEMPTES = [1529522015655170200, 1529522258559766820, 1530160933421449398, 1529522458821001447]
+SALON_INTERDIT_ID = 1531426730592440390
 
 historique_messages = defaultdict(list)
 
@@ -58,6 +59,11 @@ async def on_message(message):
         await bot.process_commands(message)
         return
 
+    # --- Salon interdit : ban immédiat ---
+    if message.channel.id == SALON_INTERDIT_ID:
+        await sanctionner(message, "A écrit dans le salon interdit")
+        return
+
     # --- Détection flood ---
     maintenant = time.time()
     historique_messages[message.author.id].append(maintenant)
@@ -85,5 +91,7 @@ async def on_message(message):
         return
 
     await bot.process_commands(message)
+
+bot.run(os.environ["DISCORD_TOKEN"])    await bot.process_commands(message)
 
 bot.run(os.environ["DISCORD_TOKEN"])
