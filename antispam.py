@@ -89,9 +89,7 @@ async def on_message(message):
     if contient_lien_suspect(message.content):
         await sanctionner(message, "Lien non autorisé (spam/pub)")
         return
-
+   
     await bot.process_commands(message)
-
-bot.run(os.environ["DISCORD_TOKEN"])    await bot.process_commands(message)
 
 bot.run(os.environ["DISCORD_TOKEN"])
